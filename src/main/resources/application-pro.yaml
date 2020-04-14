@@ -1,0 +1,14 @@
+# 配置数据源
+spring:
+  datasource:
+    username: root
+    password:
+    url: jdbc:mysql://localhost:3306/myblog?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+mybatis-plus:
+  # mapper文件的位置
+  mapper-locations: classpath:mapper/*.xml
+  # pojo所在的目录
+  type-aliases-package: com.feige.pojo
