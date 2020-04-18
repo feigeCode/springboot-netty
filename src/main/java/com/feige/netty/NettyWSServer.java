@@ -51,7 +51,7 @@ public class NettyWSServer {
                 .channel(NioServerSocketChannel.class)
                 //为监听客户端read/write事件的Channel添加用户自定义的ChannelHandler
                 .childHandler(wsServerInitializer);
-        System.out.println(this.initPort);
+        //System.out.println(this.initPort);
         future = server.bind().sync();
         log.info("netty websocket server 在"+this.host+":"+this.initPort+"地址启动完毕....");
         return future;
