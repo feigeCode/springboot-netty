@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.feige</groupId>
-    <artifactId>base-project</artifactId>
+    <artifactId>springboot-netty</artifactId>
     <version>1.0</version>
-    <name>base-project</name>
+    <name>springboot-netty</name>
     <description>base java project</description>
 
     <properties>

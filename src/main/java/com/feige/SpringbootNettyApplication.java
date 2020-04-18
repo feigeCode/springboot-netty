@@ -23,12 +23,12 @@ import javax.annotation.Resource;
  * 对象销毁等操作。
  */
 @SpringBootApplication
-public class BaseProjectApplication implements CommandLineRunner {
+public class SpringbootNettyApplication implements CommandLineRunner {
 
     @Resource
     private NettyWSServer nettyWSServer;
     public static void main(String[] args) {
-        SpringApplication.run(BaseProjectApplication.class, args);
+        SpringApplication.run(SpringbootNettyApplication.class, args);
     }
 
     @Override
