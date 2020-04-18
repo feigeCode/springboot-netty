@@ -6,6 +6,11 @@ spring:
     url: jdbc:mysql://localhost:3306/myblog?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+#配置netty服务的端口
+server:
+  netty:
+    port: 8088
+
 
 mybatis-plus:
   # mapper文件的位置
