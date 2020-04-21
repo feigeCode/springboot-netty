@@ -4,11 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SpringbootNettyApplicationTests {
-
+class SpringbootNettyApplicationTests{
     @Test
-    void contextLoads() {
-
+    void context(){
+        System.out.println("feige");
     }
-
 }

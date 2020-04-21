@@ -3,7 +3,6 @@ package com.feige;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.baomidou.mybatisplus.generator.config.GlobalConfig;
@@ -34,7 +33,7 @@ public class MybatisPlusGenerator {
         mpg.setGlobalConfig(gc);
         //2、设置数据源
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://localhost:3306/love_wall?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8");
+        dsc.setUrl("jdbc:mysql://localhost:3306/springboot_netty?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
         dsc.setPassword("hufei169357");
@@ -42,7 +41,7 @@ public class MybatisPlusGenerator {
         mpg.setDataSource(dsc);
         //3、包的配置
         PackageConfig pc = new PackageConfig();
-        pc.setModuleName("blog");
+        //pc.setModuleName("blog");
         pc.setParent("com.feige");
         pc.setEntity("pojo");
         pc.setMapper("dao");
@@ -51,11 +50,11 @@ public class MybatisPlusGenerator {
         mpg.setPackageInfo(pc);
         //4、策略配置
         StrategyConfig strategy = new StrategyConfig();
-        strategy.setInclude("comment");// 设置要映射的表名
+        strategy.setInclude("comment","chat_msg","category","dynamic","user","media_addr");// 设置要映射的表名
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setEntityLombokModel(true); // 自动lombok；
-        strategy.setLogicDeleteFieldName("deleted");
+        strategy.setLogicDeleteFieldName("is_delete");
         // 自动填充配置
         TableFill gmtCreate = new TableFill("gmt_create", FieldFill.INSERT);
         TableFill gmtModified = new TableFill("gmt_modified", FieldFill.INSERT_UPDATE);

@@ -1,5 +1,6 @@
 package com.feige.netty.pojo;
 
+import com.feige.pojo.ChatMsg;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,7 @@ public class DataContent implements Serializable {
     //动作类型
     private Integer action;
     //用户的聊天内容entity
-    private ChatMessage chatMessage;
+    private ChatMsg chatMsg;
     //扩展字段
     private String extend;
 }

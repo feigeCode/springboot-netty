@@ -1,11 +1,13 @@
 package com.feige.netty;
 
 import com.feige.enums.MsgActionEnum;
-import com.feige.netty.pojo.ChatMessage;
 import com.feige.netty.pojo.DataContent;
+import com.feige.pojo.ChatMsg;
+import com.feige.service.ChatMsgService;
 import com.feige.utils.JsonUtils;
 import com.feige.utils.StringUtils;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
@@ -14,18 +16,24 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
 //这是处理消息的handler，是用于处理文本的对象，frame是消息的载体
 @Component
+@ChannelHandler.Sharable
 public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
+
+    @Resource
+    private ChatMsgService chatMsgService;
     //用于记录和管理客户端的channel
     private static ChannelGroup users = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, TextWebSocketFrame textWebSocketFrame) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame textWebSocketFrame) throws Exception {
         String content = textWebSocketFrame.text();
-        Channel currentChannel = channelHandlerContext.channel();
+        //System.out.println(content);
+        Channel currentChannel = ctx.channel();
         //1. 获取客户端的传输过来的消息
         //把字符串转化为java pojo
         DataContent dataContent = JsonUtils.jsonToPojo(content, DataContent.class);
@@ -33,39 +41,38 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
         assert dataContent != null;
         if (dataContent.getAction() == MsgActionEnum.CONNECT.type){
             //  2.1 当websocket第一次open的时候，初始化channel，把用的channel和userId关联起来
-            String senderId = dataContent.getChatMessage().getSenderId();
+            Long senderId = dataContent.getChatMsg().getSenderId();
             UserChannelRel.put(senderId,currentChannel);
             //测试
-            for (Channel user : users) {
-                System.out.println(user);
-            }
-        }else if (dataContent.getAction() == MsgActionEnum.CHAT.type){
+//            UserChannelRel.output();
+//            for (Channel user : users) {
+//                System.out.println(user);
+//            }
+        } else if (dataContent.getAction() == MsgActionEnum.CHAT.type){
             //  2.2 聊天类型的消息，把聊天记录保存到数据库，同时标记消息的的签收状态【未签收】
-            ChatMessage chatMessage = dataContent.getChatMessage();
-            String msg = chatMessage.getMsg();
-            String receiverId = chatMessage.getReceiverId();
-            String senderId = chatMessage.getSenderId();
+            ChatMsg chatMsg = dataContent.getChatMsg();
+            Long receiverId = chatMsg.getReceiverId();
+            //System.out.println(dataContent);
             //保存到数据库，并且标记为未签收，返回msgId
-
-            System.out.println("把数据保存到数据库");
-
+            int saveChatMsg = chatMsgService.saveChatMsg(chatMsg);
+            if (saveChatMsg != 1){
+                return;
+            }
             //发送消息
             //从全局用户Channel关系中获取接收方的channel
             Channel receiverChannel = UserChannelRel.get(receiverId);
-            if (receiverChannel == null){
-                //channel为空代表用户离线，推送消息（JPush，个推，小米推送）
-                System.out.println("消息推送");
-            } else {
+            //System.out.println(chatMsg);
+            if (receiverChannel != null && receiverChannel.isOpen()){
                 //当receiverChannel不为空时，从ChannelGroup去查找对应的channel是否存在
                 Channel channel = users.find(receiverChannel.id());
                 if (channel != null){
                     //用户在线
                     receiverChannel.writeAndFlush(
-                            new TextWebSocketFrame(JsonUtils.objectToJson(chatMessage))
+                            new TextWebSocketFrame(JsonUtils.objectToJson(chatMsg))
                     );
-                } else {
-                    //用户离线 t推送消息
-                    System.out.println("消息推送");
+                    //System.out.println(JsonUtils.objectToJson(chatMsg));
+                    //把消息标记为已读
+                    int updateChatMsg = chatMsgService.updateChatMsg(chatMsg);
                 }
             }
         }else if (dataContent.getAction() == MsgActionEnum.SIGNED.type){
@@ -73,17 +80,18 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
             //扩展字段在signed类型的消息中，代表需要去签收的消息id，逗号间隔
             String msgIdsStr = dataContent.getExtend();
             String[] msgIds = msgIdsStr.split(",");
-            List<String> msgIdList = new ArrayList<>();
+            List<Long> msgIdList = new ArrayList<>();
             for (String msgId : msgIds) {
                 if (StringUtils.isNotBlank(msgId)){
-                    msgIdList.add(msgId);
+                    msgIdList.add(Long.valueOf(msgId));
                 }
             }
             System.out.println(msgIdList.toString());
             if (msgIdList != null && !msgIdList.isEmpty() && msgIdList.size() > 0){
                 //批量签收
                 //更新数据库数据 用foreach语句
-                System.out.println("更新数据库数据");
+                //System.out.println("更新数据库数据");
+                int batchUpdateChatMsg = chatMsgService.batchUpdateChatMsg(msgIdList);
             }
         }else if (dataContent.getAction() == MsgActionEnum.KEEPALIVE.type){
             //  2.4 心跳类型的消息

@@ -13,11 +13,8 @@ import javax.annotation.Resource;
 
 @Component
 public class WSServerInitializer extends ChannelInitializer<SocketChannel> {
-    //注入自定义的助手类
     @Resource
     private ChatHandler chatHandler;
-
-
     protected void initChannel(SocketChannel socketChannel) throws Exception {
         ChannelPipeline pipeline = socketChannel.pipeline();
         //基于http协议，所以要有http编码解码器
@@ -33,6 +30,7 @@ public class WSServerInitializer extends ChannelInitializer<SocketChannel> {
         //对于websocket来讲，都是以frames进行传输的，不同的数据类型对应的frames也不同
         pipeline.addLast(new WebSocketServerProtocolHandler("/ws"));
         //自定义的handler
+        //必须采用注入的方式，不然在自定义的handler中无法注入service层
         pipeline.addLast(chatHandler);
     }
 }

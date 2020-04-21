@@ -2,6 +2,7 @@ package com.feige;
 
 import com.feige.netty.NettyWSServer;
 import io.netty.channel.ChannelFuture;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,17 +24,20 @@ import javax.annotation.Resource;
  * 对象销毁等操作。
  */
 @SpringBootApplication
+@MapperScan("com.feige.dao")
 public class SpringbootNettyApplication implements CommandLineRunner {
 
     @Resource
     private NettyWSServer nettyWSServer;
+
+
     public static void main(String[] args) {
         SpringApplication.run(SpringbootNettyApplication.class, args);
+
     }
 
     @Override
     public void run(String... args) throws Exception {
-
         ChannelFuture future = nettyWSServer.start();
         Runtime.getRuntime().addShutdownHook(new Thread(() -> nettyWSServer.destroy()));
         //服务端管道关闭的监听器并同步阻塞,直到channel关闭,线程才会往下执行,结束进程
