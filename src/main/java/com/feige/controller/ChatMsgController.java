@@ -39,7 +39,7 @@ public class ChatMsgController {
     @ApiImplicitParam(name = "senderId", value = "发送者ID", required = true)
     @ApiOperation(value = "查询未读消息")
     @GetMapping("/getUnreadChatMsg")
-    public ResultAjax getUnreadChatMsg(@RequestParam(value = "senderId")Long senderId){
+    public ResultAjax getUnreadChatMsg(@RequestParam(value = "senderId")String senderId){
         List<ChatMsg> chatMsg = chatMsgService.getUnreadChatMsg(senderId);
         return ResultAjax.success(chatMsg);
     }

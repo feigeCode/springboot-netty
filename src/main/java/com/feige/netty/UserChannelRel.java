@@ -10,16 +10,16 @@ import java.util.Map;
  */
 public class UserChannelRel {
 
-    private static Map<Long, Channel> manager = new HashMap<>();
+    private static Map<String, Channel> manager = new HashMap<>();
 
-    public static void put(Long senderId,Channel channel){
+    public static void put(String senderId,Channel channel){
         manager.put(senderId,channel);
     }
-    public static Channel get(Long senderId){
+    public static Channel get(String senderId){
         return manager.get(senderId);
     }
     public static void output(){
-        for (Map.Entry<Long, Channel> entry : manager.entrySet()) {
+        for (Map.Entry<String, Channel> entry : manager.entrySet()) {
             System.out.println("userId:"+entry.getKey()+",channelId:"+entry.getValue().id().asLongText());
         }
     }

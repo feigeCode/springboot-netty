@@ -18,5 +18,5 @@ import java.util.List;
 @Mapper
 @Repository
 public interface ChatMsgMapper extends BaseMapper<ChatMsg> {
-    int batchUpdateChatMsg(List<Long> list);
+    int batchUpdateChatMsg(List<String> list);
 }

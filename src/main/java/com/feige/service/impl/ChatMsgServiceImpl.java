@@ -62,9 +62,9 @@ public class ChatMsgServiceImpl extends ServiceImpl<ChatMsgMapper, ChatMsg> impl
      * @param list
      * @return
      */
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public int batchUpdateChatMsg(List<Long> list) {
+    public int batchUpdateChatMsg(List<String> list) {
         return chatMsgMapper.batchUpdateChatMsg(list);
     }
 
@@ -77,7 +77,7 @@ public class ChatMsgServiceImpl extends ServiceImpl<ChatMsgMapper, ChatMsg> impl
      * @return
      */
     @Override
-    public List<ChatMsg> getChatMsg(Long senderId, Long receiverId, int page, int limit) {
+    public List<ChatMsg> getChatMsg(String senderId, String receiverId, int page, int limit) {
         // 参数一：当前页
         // 参数二：页面大小
         Page<ChatMsg> page1 = new Page<>(page,limit);
@@ -98,7 +98,7 @@ public class ChatMsgServiceImpl extends ServiceImpl<ChatMsgMapper, ChatMsg> impl
      * @return
      */
     @Override
-    public int getCount(Long senderId, Long receiverId) {
+    public int getCount(String senderId, String receiverId) {
         QueryWrapper<ChatMsg> wrapper = new QueryWrapper<>();
         wrapper
                 .nested(i -> i.eq("sender_id",senderId)
@@ -115,10 +115,10 @@ public class ChatMsgServiceImpl extends ServiceImpl<ChatMsgMapper, ChatMsg> impl
      * @return
      */
     @Override
-    public List<ChatMsg> getUnreadChatMsg(Long senderId) {
+    public List<ChatMsg> getUnreadChatMsg(String senderId) {
         QueryWrapper<ChatMsg> wrapper = new QueryWrapper<>();
         wrapper
-                .nested(i -> i.eq("sender_id",senderId)
+                .nested(i -> i.eq("receiver_id",senderId)
                         .eq("sign_flag",false));
         return chatMsgMapper.selectList(wrapper);
     }

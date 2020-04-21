@@ -41,7 +41,7 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
         assert dataContent != null;
         if (dataContent.getAction() == MsgActionEnum.CONNECT.type){
             //  2.1 当websocket第一次open的时候，初始化channel，把用的channel和userId关联起来
-            Long senderId = dataContent.getChatMsg().getSenderId();
+            String senderId = dataContent.getChatMsg().getSenderId();
             UserChannelRel.put(senderId,currentChannel);
             //测试
 //            UserChannelRel.output();
@@ -51,7 +51,7 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
         } else if (dataContent.getAction() == MsgActionEnum.CHAT.type){
             //  2.2 聊天类型的消息，把聊天记录保存到数据库，同时标记消息的的签收状态【未签收】
             ChatMsg chatMsg = dataContent.getChatMsg();
-            Long receiverId = chatMsg.getReceiverId();
+            String receiverId = chatMsg.getReceiverId();
             //System.out.println(dataContent);
             //保存到数据库，并且标记为未签收，返回msgId
             int saveChatMsg = chatMsgService.saveChatMsg(chatMsg);
@@ -80,10 +80,10 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
             //扩展字段在signed类型的消息中，代表需要去签收的消息id，逗号间隔
             String msgIdsStr = dataContent.getExtend();
             String[] msgIds = msgIdsStr.split(",");
-            List<Long> msgIdList = new ArrayList<>();
+            List<String> msgIdList = new ArrayList<>();
             for (String msgId : msgIds) {
                 if (StringUtils.isNotBlank(msgId)){
-                    msgIdList.add(Long.valueOf(msgId));
+                    msgIdList.add(msgId);
                 }
             }
             System.out.println(msgIdList.toString());

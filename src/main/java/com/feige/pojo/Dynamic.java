@@ -25,20 +25,20 @@ public class Dynamic implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.ID_WORKER)
-    private Long id;
+    @TableId(value = "id", type = IdType.INPUT)
+    private String id;
 
-    private Long categoryId;
+    private String categoryId;
 
     private String content;
 
-    private Long mediaId;
+    private String mediaId;
 
     private Boolean isDraft;
 
     private Boolean isAudit;
 
-    private Long userId;
+    private String userId;
 
     private String school;
 
