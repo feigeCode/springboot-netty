@@ -37,8 +37,6 @@ public class NettyWSServer {
     private ChannelFuture future = null;
     @Value("${server.netty.port}")
     private int initPort;
-    @Value("${server.netty.host}")
-    private String host;
 
     public ChannelFuture start() throws InterruptedException {
         parentGroup = new NioEventLoopGroup();
@@ -46,14 +44,14 @@ public class NettyWSServer {
         //ServerBootstrap负责初始化netty服务器，并且开始监听端口的socket请求
         ServerBootstrap server = new ServerBootstrap();
         server.group(parentGroup,childGroup)
-                .localAddress(this.host,this.initPort)
+                .localAddress(this.initPort)
                 //配置双向通道
                 .channel(NioServerSocketChannel.class)
                 //为监听客户端read/write事件的Channel添加用户自定义的ChannelHandler
                 .childHandler(wsServerInitializer);
         //System.out.println(this.initPort);
         future = server.bind().sync();
-        log.info("netty websocket server 在"+this.host+":"+this.initPort+"地址启动完毕....");
+        log.info("netty websocket server 在"+this.initPort+"端口启动完毕....");
         return future;
     }
     public void destroy(){
