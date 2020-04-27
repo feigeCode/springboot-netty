@@ -1,9 +1,9 @@
 package com.feige.service.impl;
 
-import com.feige.pojo.User;
-import com.feige.dao.UserMapper;
-import com.feige.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.feige.dao.UserMapper;
+import com.feige.pojo.User;
+import com.feige.service.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -29,5 +29,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public int getCount() {
         return userMapper.selectCount(null);
+    }
+
+    @Override
+    public List<User> getTeacher() {
+        return userMapper.getTeacher();
     }
 }

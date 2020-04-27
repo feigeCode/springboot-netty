@@ -7,7 +7,6 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * <p>
@@ -46,12 +45,19 @@ public class User implements Serializable {
     private Boolean isDelete;
 
     @TableField(fill = FieldFill.INSERT)
-    private Date gmtCreate;
+    private String gmtCreate;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Date gmtModified;
+    private String gmtModified;
 
     private String avatar;
+    //只有是老师才会有下面
+    //心里证书
+    private String certificate;
+    //自我介绍
+    private String selfIntroduce;
+    //其他
+    private String other;
 
 
 }

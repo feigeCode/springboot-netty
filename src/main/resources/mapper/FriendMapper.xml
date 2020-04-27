@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feige.dao.FriendMapper">
+  <select id="getFriend" parameterType="string" resultType="User">
+      SELECT u.id id,`nickname`,`phone`,`email`,`sex`,`age`,
+             `detailed_address` detailedAddress,`school`,`is_delete` isDelete,
+             `gmt_create` gmtCreate,`gmt_modified` gmtModified,`avatar`
+      FROM springboot_netty.friend f,springboot_netty.user u
+      WHERE f.teacher_id=u.id AND f.my_id=#{myId}
+  </select>
+</mapper>

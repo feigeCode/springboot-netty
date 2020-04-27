@@ -36,5 +36,17 @@ public class UserController {
         int count = userService.getCount();
         return ResultAjax.success(user,count);
     }
+
+
+    /**
+     * 查询所有的老师
+     * @return
+     */
+    @ApiOperation(value = "查询所有的老师")
+    @GetMapping("/get_teacher")
+    public ResultAjax getTeacher(){
+        List<User> user = userService.getTeacher();
+        return ResultAjax.success(user);
+    }
 }
 

@@ -1,6 +1,7 @@
 package com.feige.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.feige.pojo.Friend;
 import com.feige.pojo.User;
 
 import java.util.List;
@@ -11,10 +12,9 @@ import java.util.List;
  * </p>
  *
  * @author feige
- * @since 2020-04-18
+ * @since 2020-04-22
  */
-public interface UserService extends IService<User> {
-    List<User> getUser();
-    int getCount();
-    List<User> getTeacher();
+public interface FriendService extends IService<Friend> {
+    List<User> getFriend(String myId);
+
 }

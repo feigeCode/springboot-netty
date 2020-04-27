@@ -7,7 +7,6 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * <p>
@@ -50,10 +49,10 @@ public class MediaAddr implements Serializable {
     private Boolean isDelete;
 
     @TableField(fill = FieldFill.INSERT)
-    private Date gmtCreate;
+    private String gmtCreate;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Date gmtModified;
+    private String gmtModified;
 
 
 }

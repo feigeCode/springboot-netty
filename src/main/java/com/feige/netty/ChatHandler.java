@@ -53,11 +53,8 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
             ChatMsg chatMsg = dataContent.getChatMsg();
             String receiverId = chatMsg.getReceiverId();
             //System.out.println(dataContent);
-            //保存到数据库，并且标记为未签收，返回msgId
+            //保存到数据库，并且标记为未签收
             int saveChatMsg = chatMsgService.saveChatMsg(chatMsg);
-            if (saveChatMsg != 1){
-                return;
-            }
             //发送消息
             //从全局用户Channel关系中获取接收方的channel
             Channel receiverChannel = UserChannelRel.get(receiverId);
@@ -66,6 +63,8 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
                 //当receiverChannel不为空时，从ChannelGroup去查找对应的channel是否存在
                 Channel channel = users.find(receiverChannel.id());
                 if (channel != null){
+                    System.out.println(JsonUtils.objectToJson(chatMsg));
+                    System.out.println(chatMsg);
                     //用户在线
                     receiverChannel.writeAndFlush(
                             new TextWebSocketFrame(JsonUtils.objectToJson(chatMsg))
