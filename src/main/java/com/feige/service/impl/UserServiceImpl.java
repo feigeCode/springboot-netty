@@ -35,4 +35,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public List<User> getTeacher() {
         return userMapper.getTeacher();
     }
+
+    @Override
+    public User getUserById(String id) {
+        return userMapper.getUserById(id);
+    }
 }

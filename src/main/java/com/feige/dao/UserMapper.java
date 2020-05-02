@@ -19,4 +19,5 @@ import java.util.List;
 @Repository
 public interface UserMapper extends BaseMapper<User> {
     List<User> getTeacher();
+    User getUserById(String id);
 }

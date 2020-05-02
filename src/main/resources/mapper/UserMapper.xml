@@ -2,11 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.feige.dao.UserMapper">
     <select id="getTeacher" resultType="User">
-        SELECT  u.id,nickname,phone,email,sex,age,detailed_address detailedAddress,
+        SELECT  u.uid,nickname,phone,email,sex,age,detailed_address detailedAddress,
         school,i.is_delete isDelete,i.gmt_create gmtCreate,i.gmt_modified gmtModified,
         avatar,i.certificate certificate,i.self_introduce selfIntroduce,i.other other
         FROM springboot_netty.user u,springboot_netty.introduce i
         WHERE  u.introduce_id=i.id
+
+    </select>
+    <select id="getUserById" resultType="User" parameterType="String">
+        SELECT  uid,nickname,phone,email,sex,age,detailed_address detailedAddress from springboot_netty.user WHERE  uid=#{id}
 
     </select>
 </mapper>
