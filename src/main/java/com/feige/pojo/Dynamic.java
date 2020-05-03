@@ -31,7 +31,7 @@ public class Dynamic implements Serializable {
 
     private String content;
 
-    private String mediaId;
+    private String image;
 
     private Boolean isDraft;
 

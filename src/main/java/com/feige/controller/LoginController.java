@@ -41,7 +41,7 @@ public class LoginController {
             String openid = (String) parse.get("openid");
             User user1 = userService.getUserById(openid);
             if (StringUtils.isNotNull(user1)){
-                return ResultAjax.success();
+                return ResultAjax.success(openid);
             }
             // 2、对encryptedData加密数据进行AES解密
             try {
@@ -50,7 +50,7 @@ public class LoginController {
                     JSONObject userInfoJSON = JSONObject.parseObject(result);
                     //System.out.println(userInfoJSON);
                     User user = User.builder()
-                            .uid(userInfoJSON.get("openId").toString())
+                            .uid(openid)
                             .nickname(userInfoJSON.get("nickName").toString())
                             .sex(Boolean.valueOf(userInfoJSON.get("gender").toString()))
                             .avatar(userInfoJSON.get("avatarUrl").toString())
@@ -58,7 +58,7 @@ public class LoginController {
                             .build();
                     boolean save = userService.save(user);
                     if (save){
-                        return ResultAjax.success();
+                        return ResultAjax.success(openid);
                     }else {
                         return ResultAjax.error();
                     }
