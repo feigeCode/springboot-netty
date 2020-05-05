@@ -1,18 +1,20 @@
 package com.feige.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.feige.core.ResultAjax;
+import com.feige.pojo.Friend;
 import com.feige.pojo.User;
 import com.feige.service.FriendService;
+import com.feige.utils.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,6 +46,34 @@ public class FriendController {
         List<User> friend = friendService.getFriend(myId);
         return ResultAjax.success(friend);
     }
+
+    @ApiOperation(value = "添加朋友")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "myId", value = "用户ID", required = true),
+            @ApiImplicitParam(name = "friendId", value = "朋友ID", required = true)
+    })
+    @PostMapping("/add")
+    public ResultAjax addFriend(@RequestParam("myId") String myId, @RequestParam("friendId") String friendId){
+        QueryWrapper<Friend> wrapper = new QueryWrapper<>();
+        wrapper.eq("my_id",myId).eq("teacher_id",friendId);
+        Friend friend = friendService.getOne(wrapper);
+        System.out.println(friend);
+        if (StringUtils.isNull(friend)){
+            List<Friend> friends = new ArrayList<>();
+            friends.add(new Friend(null,myId,friendId));
+            friends.add(new Friend(null,friendId,myId));
+            //System.out.println(friends);
+            boolean batch = friendService.saveBatch(friends);
+            if (batch){
+                return ResultAjax.success();
+            }else {
+                return ResultAjax.error();
+            }
+        }else {
+            return ResultAjax.error();
+        }
+    }
+
 
 }
 

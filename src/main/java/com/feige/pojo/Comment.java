@@ -2,8 +2,7 @@ package com.feige.pojo;
 
 import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
@@ -20,6 +19,9 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @ApiModel(value="Comment对象", description="")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Comment implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,6 +49,8 @@ public class Comment implements Serializable {
     private String avatar;
 
     private String toNickname;
+
+    private String userId;
 
 
 }

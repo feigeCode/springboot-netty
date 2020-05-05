@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.feige.dao.CommentMapper">
-
+    <select id="getComments" resultType="Comment" parameterType="string">
+        select distinct c.id id,c.content content,parent_id parentId,
+        c.avatar avatar, c.nickname nickname,c.gmt_create gmtCreate,
+        to_nickname toNickname,c.user_id userId from springboot_netty.dynamic d,
+        springboot_netty.comment c where c.dynamic_id=#{dynamicId}
+    </select>
 </mapper>

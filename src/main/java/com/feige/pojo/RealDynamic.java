@@ -39,4 +39,5 @@ public class RealDynamic implements Serializable {
     private String gmtCreate;
 
     private Integer good;
+
 }
