@@ -13,15 +13,12 @@ import java.util.TimeZone;
 @Slf4j
 @Component // 一定不要忘记把处理器加到IOC容器中！
 public class MyMetaObjectHandler implements MetaObjectHandler {
-    static Calendar instance = Calendar.getInstance();
-    static {
-        TimeZone.setDefault(TimeZone.getTimeZone("GMT+8:00"));
-    }
     static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     //插入时的填充策略
     @Override
     public void insertFill(MetaObject metaObject) {
-
+        Calendar instance = Calendar.getInstance();
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT+8:00"));
         log.info("start fill id = {}",IdWorker.getIdStr());
         //自动生成策略无法生成字符串，给用填充
         this.setFieldValByName("id",IdWorker.getIdStr(),metaObject);
@@ -33,6 +30,8 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     //更新时的填充策略
     @Override
     public void updateFill(MetaObject metaObject) {
+        Calendar instance = Calendar.getInstance();
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT+8:00"));
         log.info("start update date");
         this.setFieldValByName("gmtModified",dateFormat.format(instance.getTime()),metaObject);
     }

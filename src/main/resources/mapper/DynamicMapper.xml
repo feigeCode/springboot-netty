@@ -4,7 +4,7 @@
     <select id="getDynamicPage" parameterType="map" resultType="RealDynamic">
         select d.id id,avatar, nickname, content, d.gmt_create gmtCreate, d.image, good
         from springboot_netty.dynamic d,springboot_netty.user u where d.user_id=u.uid
-        and is_audit=0 and is_draft=0 limit #{page},#{limit}
+        and is_audit=0 and is_draft=0 order by d.gmt_create desc limit #{page},#{limit}
     </select>
     <select id="getDynamicCount" resultType="int">
         select count(1) from springboot_netty.dynamic d,springboot_netty.user u

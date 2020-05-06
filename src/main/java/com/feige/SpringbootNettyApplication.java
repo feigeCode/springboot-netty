@@ -1,11 +1,13 @@
 package com.feige;
 
 import com.feige.netty.NettyWSServer;
+import com.github.tobato.fastdfs.FdfsClientConfig;
 import io.netty.channel.ChannelFuture;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import;
 
 import javax.annotation.Resource;
 
@@ -25,6 +27,7 @@ import javax.annotation.Resource;
  */
 @SpringBootApplication
 @MapperScan("com.feige.dao")
+@Import(FdfsClientConfig.class)
 public class SpringbootNettyApplication implements CommandLineRunner {
 
     @Resource
