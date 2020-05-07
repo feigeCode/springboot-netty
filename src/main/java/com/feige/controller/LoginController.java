@@ -7,6 +7,7 @@ import com.feige.service.UserService;
 import com.feige.utils.AesCbcUtil;
 import com.feige.utils.HttpRequest;
 import com.feige.utils.StringUtils;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
+@Api(tags = "登录")
 @RestController
 @RequestMapping("/api/login")
 public class LoginController {
