@@ -74,6 +74,31 @@ public class FriendController {
         }
     }
 
+    /**
+     * 删除朋友
+     * @param friendId
+     * @param myId
+     * @return
+     */
+    @ApiOperation(value = "删除朋友")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "myId", value = "用户ID", required = true),
+            @ApiImplicitParam(name = "friendId", value = "朋友ID", required = true)
+    })
+    @DeleteMapping("/delete/{friendId}/{myId}")
+    public ResultAjax delete(@PathVariable("friendId") String friendId,@PathVariable("myId") String myId){
+        QueryWrapper<Friend> wrapper = new QueryWrapper<>();
+        wrapper.nested(i -> i.eq("teacher_id",friendId).eq("my_id",myId))
+                .or(i -> i.eq("teacher_id",myId).eq("my_id",friendId));
+        boolean remove = friendService.remove(wrapper);
+        if (remove){
+            return ResultAjax.success();
+        }else {
+            return ResultAjax.error();
+        }
+
+    }
+
 
 }
 

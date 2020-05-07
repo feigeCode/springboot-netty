@@ -6,8 +6,10 @@ import com.feige.pojo.Dynamic;
 import com.feige.pojo.RealDynamic;
 import com.feige.service.DynamicService;
 import com.feige.utils.RedisUtil;
+import com.feige.utils.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,33 +48,27 @@ public class DynamicController {
         return ResultAjax.success(dynamicPage,count);
     }
 
+    @ApiOperation(value = "增加一条动态")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId",value = "用户ID",required = true),
+            @ApiImplicitParam(name = "content",value = "内容", required = true),
+            @ApiImplicitParam(name = "imgAddr",value = "图片地址")
+    })
     @PostMapping("/add")
-    public ResultAjax addDynamic(@RequestParam("userId") String userId, @RequestParam("content") String content){
-        boolean key = redisUtil.hasKey(userId);
-        StringBuilder imageAddr = new StringBuilder();
-        if (key){
-            long size = redisUtil.lGetListSize(userId);
-            //从redis中获取用户上传到fastdfs的图片的地址
-            List<Object> imageList = redisUtil.lGet(userId,0,size);
-            //删除缓存
-            redisUtil.del(userId);
-            assert imageList != null;
-            for (Object image : imageList) {
-                StringBuilder img = new StringBuilder(image.toString());
-                img.deleteCharAt(0);
-                img.deleteCharAt(img.length()-1);
-                imageAddr.append(img).append(",");
-            }
+    public ResultAjax addDynamic(@RequestParam("userId") String userId,
+                                 @RequestParam("content") String content,
+                                 @RequestParam(value = "imgAddr",required = false) String imgAddr){
+        //System.out.println(imgAddr);
+        if (StringUtils.isEmpty(imgAddr)){
+            imgAddr = null;
+        }else {
+            imgAddr = new StringBuilder(imgAddr).deleteCharAt(imgAddr.lastIndexOf(",")).toString();
         }
-        //System.out.println(imageAddr);
-        //去除最后一个逗号
-        int last = imageAddr.lastIndexOf(",");
-        String image = imageAddr.deleteCharAt(last).toString();
-
+        //System.out.println(imgAddr);
         Dynamic dynamic = Dynamic.builder()
                 .userId(userId)
                 .content(content)
-                .image(image)
+                .image(imgAddr)
                 .build();
         boolean save = dynamicService.save(dynamic);
         if (save){
@@ -81,6 +77,11 @@ public class DynamicController {
             return ResultAjax.error();
         }
     }
+    @ApiOperation("点赞")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "dynamicId",value = "动态的ID", required = true),
+            @ApiImplicitParam(name = "good",value = "点赞数", required = true)
+    })
     @PutMapping("/good")
     public ResultAjax good(@RequestParam("dynamicId") String dynamicId,@RequestParam("good") Integer good){
         Dynamic dynamic = Dynamic.builder()

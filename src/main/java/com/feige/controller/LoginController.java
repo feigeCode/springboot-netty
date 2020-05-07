@@ -7,6 +7,8 @@ import com.feige.service.UserService;
 import com.feige.utils.AesCbcUtil;
 import com.feige.utils.HttpRequest;
 import com.feige.utils.StringUtils;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,13 +21,19 @@ public class LoginController {
     private UserService userService;
 
 
-    @RequestMapping("/post")
+    @ApiOperation(value = "登录")
+    @PostMapping("/post")
     public ResultAjax login(String encryptedData, String iv, String code){
+        //System.out.println(encryptedData);
+        //System.out.println(iv);
+        //System.out.println(code);
         if(!StringUtils.isEmpty(code)){
             //小程序唯一标识   (在微信小程序管理后台获取)
-            String appid = "wx2888c7754b338c28";
+            String appid = "xxxx";
+            //String appid = "xxxx";
             //小程序的 app secret (在微信小程序管理后台获取)
-            String secret = "887085526457e287597d5a349a8943bc";
+            String secret = "xxxx";
+            //String secret = "xxxx";
             //授权（必填）
             String grant_type = "authorization_code";
             // 1、向微信服务器 使用登录凭证 code 获取 session_key 和 openid
@@ -34,11 +42,14 @@ public class LoginController {
             //发送请求
             String str = HttpRequest.sendGet("https://api.weixin.qq.com/sns/jscode2session", params);
             JSONObject parse = JSONObject.parseObject(str);
+            //System.out.println(str);
             //System.out.println(parse);
             //获取会话密钥（session_key）
             String sessionKey = parse.get("session_key").toString();
             //用户的唯一标识（openid）
             String openid = (String) parse.get("openid");
+            //System.out.println(sessionKey);
+            //System.out.println(openid);
             User user1 = userService.getUserById(openid);
             if (StringUtils.isNotNull(user1)){
                 return ResultAjax.success(openid);
@@ -56,6 +67,7 @@ public class LoginController {
                             .avatar(userInfoJSON.get("avatarUrl").toString())
                             .detailedAddress(userInfoJSON.get("province").toString() + userInfoJSON.get("city").toString())
                             .build();
+                    //System.out.println(user);
                     boolean save = userService.save(user);
                     if (save){
                         return ResultAjax.success(openid);
