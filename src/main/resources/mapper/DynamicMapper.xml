@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.feige.dao.DynamicMapper">
     <select id="getDynamicPage" parameterType="map" resultType="RealDynamic">
-        select d.id id,avatar, nickname, content, d.gmt_create gmtCreate, d.image, good
+        select d.id id,u.uid uid,avatar, nickname, content, d.gmt_create gmtCreate, d.image, good
         from springboot_netty.dynamic d,springboot_netty.user u where d.user_id=u.uid
         and is_audit=0 and is_draft=0 order by d.gmt_create desc limit #{page},#{limit}
     </select>

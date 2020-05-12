@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Api(tags = "图片上传接口")
@@ -25,10 +24,8 @@ public class UploadController {
 
     @ApiOperation("上传图片")
     @PostMapping("/upload")
-    public ResultAjax upload(HttpServletRequest request, @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
-        request.setCharacterEncoding("UTF-8");
-        String userId = request.getParameter("userId");
-        //System.out.println(userId);
+    public ResultAjax upload(@RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
+
         if(!file.isEmpty()) {
             String fileName = file.getOriginalFilename();
             String type;

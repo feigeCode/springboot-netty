@@ -57,7 +57,7 @@ public class FriendController {
         QueryWrapper<Friend> wrapper = new QueryWrapper<>();
         wrapper.eq("my_id",myId).eq("teacher_id",friendId);
         Friend friend = friendService.getOne(wrapper);
-        System.out.println(friend);
+        //System.out.println(friend);
         if (StringUtils.isNull(friend)){
             List<Friend> friends = new ArrayList<>();
             friends.add(new Friend(null,myId,friendId));

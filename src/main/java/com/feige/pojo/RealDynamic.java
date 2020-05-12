@@ -28,6 +28,8 @@ public class RealDynamic implements Serializable {
     @TableId(value = "id", type = IdType.INPUT)
     private String id;
 
+    private String uid;
+
     private String content;
 
     private String image;

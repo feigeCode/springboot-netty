@@ -5,7 +5,6 @@ import com.feige.core.ResultAjax;
 import com.feige.pojo.Dynamic;
 import com.feige.pojo.RealDynamic;
 import com.feige.service.DynamicService;
-import com.feige.utils.RedisUtil;
 import com.feige.utils.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -32,9 +31,6 @@ public class DynamicController {
 
     @Resource
     private DynamicService dynamicService;
-
-    @Resource
-    private RedisUtil redisUtil;
 
     @ApiOperation(value = "分页查询动态")
     @ApiImplicitParam(name = "page", value = "当前页", required = true)
@@ -90,6 +86,17 @@ public class DynamicController {
                 .build();
         boolean b = dynamicService.updateById(dynamic);
         if (b){
+            return ResultAjax.success();
+        }else {
+            return ResultAjax.error();
+        }
+    }
+    @ApiOperation("删除动态")
+    @ApiImplicitParam(name = "id",value = "动态ID", required = true)
+    @DeleteMapping("/delete/{id}")
+    public ResultAjax deleteDynamicById(@PathVariable("id") String id){
+        boolean delete = dynamicService.removeById(id);
+        if (delete){
             return ResultAjax.success();
         }else {
             return ResultAjax.error();
