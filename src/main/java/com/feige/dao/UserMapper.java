@@ -5,11 +5,9 @@ import com.feige.pojo.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author feige
@@ -18,6 +16,5 @@ import java.util.List;
 @Mapper
 @Repository
 public interface UserMapper extends BaseMapper<User> {
-    List<User> getTeacher();
-    User getUserById(String id);
+
 }

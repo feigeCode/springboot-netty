@@ -2,7 +2,7 @@
 spring:
   datasource:
     username: root
-    password: #######
+    password: hufei169357
     url: jdbc:mysql://localhost:3306/springboot_netty?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
     driver-class-name: com.mysql.cj.jdbc.Driver
 
@@ -32,5 +32,10 @@ mybatis-plus:
   # 配置日志
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #逻辑删除
+  global-config:
+    db-config:
+      logic-delete-value: 1
+      logic-not-delete-value: 0
 
 

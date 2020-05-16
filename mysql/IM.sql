@@ -2,7 +2,8 @@
 SQLyog Ultimate v12.08 (64 bit)
 MySQL - 5.7.27-log : Database - springboot_netty
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -193,7 +194,7 @@ CREATE TABLE `user` (
 
 /*Data for the table `user` */
 
-insert  into `user`(`uid`,`nickname`,`phone`,`email`,`sex`,`age`,`detailed_address`,`school`,`is_delete`,`gmt_create`,`gmt_modified`,`avatar`,`introduce_id`) values ('oQyNP5ZQgz7tvjGRlLl0HXJZ6tzA','haha~',NULL,NULL,0,0,'',NULL,0,'2020-05-07 15:29:21','2020-05-07 15:29:21','https://wx.qlogo.cn/mmopen/vi_32/wADIYVRGcBjicPLbhYr9oxEsWB6KfZqywOdP2ibyEKxpYq8KtpBrV3KLrEOib84cAMs1UYCibW4ibgXhko9bEFZkHDA/132','null'),('o_6_25eSOORUoMlCHztvkZDOKTZ8','非哥',NULL,NULL,0,0,'YunnanWenshan',NULL,0,'2020-05-04 23:32:43','2020-05-04 23:32:43','https://wx.qlogo.cn/mmopen/vi_32/ElMYjXNGfoEE4axqtCFyDctBUNd3Om7x0giaPByXoybCDFYIVVMteAzlRmEdzAGch5ATViclYib28kjGWibdNdtghQ/132','1');
+insert  into `user`(`uid`,`nickname`,`phone`,`email`,`sex`,`age`,`detailed_address`,`school`,`is_delete`,`gmt_create`,`gmt_modified`,`avatar`,introduce) values ('oQyNP5ZQgz7tvjGRlLl0HXJZ6tzA','haha~',NULL,NULL,0,0,'',NULL,0,'2020-05-07 15:29:21','2020-05-07 15:29:21','https://wx.qlogo.cn/mmopen/vi_32/wADIYVRGcBjicPLbhYr9oxEsWB6KfZqywOdP2ibyEKxpYq8KtpBrV3KLrEOib84cAMs1UYCibW4ibgXhko9bEFZkHDA/132','null'),('o_6_25eSOORUoMlCHztvkZDOKTZ8','非哥',NULL,NULL,0,0,'YunnanWenshan',NULL,0,'2020-05-04 23:32:43','2020-05-04 23:32:43','https://wx.qlogo.cn/mmopen/vi_32/ElMYjXNGfoEE4axqtCFyDctBUNd3Om7x0giaPByXoybCDFYIVVMteAzlRmEdzAGch5ATViclYib28kjGWibdNdtghQ/132','1');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

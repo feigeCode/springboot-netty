@@ -52,7 +52,7 @@ public class LoginController {
             String openid = (String) parse.get("openid");
             //System.out.println(sessionKey);
             //System.out.println(openid);
-            User user1 = userService.getUserById(openid);
+            User user1 = userService.getById(openid);
             if (StringUtils.isNotNull(user1)){
                 return ResultAjax.success(openid);
             }

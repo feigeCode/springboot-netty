@@ -2,7 +2,7 @@
 spring:
   datasource:
     username: root
-    password: #######
+    password: Hufei169357@
     url: jdbc:mysql://localhost:3306/springboot_netty?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
     driver-class-name: com.mysql.cj.jdbc.Driver
 
@@ -28,6 +28,11 @@ mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
   # pojo所在的目录
   type-aliases-package: com.feige.pojo
+  #逻辑删除
+  global-config:
+    db-config:
+      logic-delete-value: 1
+      logic-not-delete-value: 0
   # 配置日志
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

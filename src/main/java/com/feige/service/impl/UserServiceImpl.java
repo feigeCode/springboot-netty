@@ -6,9 +6,6 @@ import com.feige.pojo.User;
 import com.feige.service.UserService;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import java.util.List;
-
 /**
  * <p>
  *  服务实现类
@@ -19,25 +16,5 @@ import java.util.List;
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
-    @Resource
-    private UserMapper userMapper;
-    @Override
-    public List<User> getUser() {
-        return userMapper.selectList(null);
-    }
 
-    @Override
-    public int getCount() {
-        return userMapper.selectCount(null);
-    }
-
-    @Override
-    public List<User> getTeacher() {
-        return userMapper.getTeacher();
-    }
-
-    @Override
-    public User getUserById(String id) {
-        return userMapper.getUserById(id);
-    }
 }

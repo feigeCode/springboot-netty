@@ -56,6 +56,7 @@ public class PostController {
     @PostMapping("/add")
     public ResultAjax addPost(@RequestParam("category")String category ,
                               @RequestParam("title")String title ,
+                              @RequestParam("imgAddr")String imgAddr ,
                               @RequestParam("content")String content ,
                               @RequestParam("author")String author
                               ){
@@ -64,6 +65,7 @@ public class PostController {
                 .category(category)
                 .content(content)
                 .title(title)
+                .imgAddr(imgAddr)
                 .build();
         boolean add = postService.save(post);
         if (add){
@@ -78,6 +80,9 @@ public class PostController {
             @ApiImplicitParam(name = "category",value = "分类"),
             @ApiImplicitParam(name = "title",value = "标题"),
             @ApiImplicitParam(name = "content",value = "内容"),
+            @ApiImplicitParam(name = "imgAddr",value = "文章图片"),
+            @ApiImplicitParam(name = "good",value = "点赞量"),
+            @ApiImplicitParam(name = "view",value = "浏览量"),
             @ApiImplicitParam(name = "author",value = "作者")
     })
     @PutMapping("/update/{id}")
@@ -86,6 +91,9 @@ public class PostController {
                                 @RequestParam(value = "category",required = false)String category ,
                                 @RequestParam(value = "title",required = false)String title ,
                                 @RequestParam(value = "content",required = false)String content ,
+                                @RequestParam(value = "imgAddr", required = false)String imgAddr ,
+                                @RequestParam(value = "good", required = false)Integer good ,
+                                @RequestParam(value = "view", required = false)Integer view ,
                                 @RequestParam(value = "author",required = false)String author
     ){
         Post post = Post.builder()
@@ -94,6 +102,9 @@ public class PostController {
                 .category(category)
                 .content(content)
                 .title(title)
+                .imgAddr(imgAddr)
+                .good(good)
+                .view(good)
                 .build();
         boolean update = postService.updateById(post);
         if (update){
