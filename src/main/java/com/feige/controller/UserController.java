@@ -11,6 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -27,6 +28,7 @@ import java.util.List;
 @Api(tags = "用户的增删改查接口")
 @RestController
 @RequestMapping("/api/user")
+@Slf4j
 public class UserController {
     @Resource
     private UserService userService;
@@ -91,15 +93,19 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId",value = "用户ID",required = true),
             @ApiImplicitParam(name = "nickname",value = "昵称", required = true),
+            @ApiImplicitParam(name = "school",value = "学校", required = true),
+            @ApiImplicitParam(name = "age",value = "年龄", required = true),
             @ApiImplicitParam(name = "phone",value = "电话", required = true),
             @ApiImplicitParam(name = "content",value = "自我介绍", required = true),
             @ApiImplicitParam(name = "address",value = "地址", required = true),
             @ApiImplicitParam(name = "certificate",value = "心里证书的图片地址", required = true),
-            @ApiImplicitParam(name = "email",value = "邮箱")
+            @ApiImplicitParam(name = "email",value = "邮箱", required = true)
     })
     @PutMapping("/apply")
     public ResultAjax apply(@RequestParam("userId") String userId,
                                  @RequestParam("nickname") String nickname,
+                                 @RequestParam("school") String school,
+                                 @RequestParam("age") Integer age,
                                  @RequestParam("phone") String phone,
                                  @RequestParam("introduce") String introduce,
                                  @RequestParam("address") String address,
@@ -110,11 +116,14 @@ public class UserController {
                 .uid(userId)
                 .detailedAddress(address)
                 .nickname(nickname)
+                .school(school)
+                .age(age)
                 .certificate(certificate)
                 .email(email)
                 .introduce(introduce)
                 .phone(phone)
                 .build();
+        log.info("更新的内容为user = " + user);
         boolean update = userService.updateById(user);
         if (update){
             return ResultAjax.success();

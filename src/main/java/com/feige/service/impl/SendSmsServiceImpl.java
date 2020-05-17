@@ -17,8 +17,6 @@ public class SendSmsServiceImpl implements SendSmsService {
         int appid = 1400369431; // SDK AppID 以1400开头
         // 短信应用 SDK AppKey
         String appKey = "795fa204c0eca37bd009c0b20317f901";
-        // 需要发送短信的手机号码
-        String[] phoneNumbers = {phone};
         // 短信模板 ID，需要在短信应用中申请
         int templateId = 605232;
         // 签名
@@ -26,7 +24,7 @@ public class SendSmsServiceImpl implements SendSmsService {
         try {
             String[] params = {code,"5"};
             SmsSingleSender sSender = new SmsSingleSender(appid, appKey);
-            SmsSingleSenderResult result = sSender.sendWithParam("86", phoneNumbers[0],
+            SmsSingleSenderResult result = sSender.sendWithParam("86", phone,
                     templateId, params, smsSign, "", "");
             System.out.println(result);
         } catch (HTTPException | JSONException | IOException e) {
@@ -37,4 +35,5 @@ public class SendSmsServiceImpl implements SendSmsService {
         // 网络 IO 错误
         return true;
     }
+
 }
