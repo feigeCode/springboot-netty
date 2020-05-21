@@ -31,11 +31,11 @@ public class LoginController {
         //System.out.println(code);
         if(!StringUtils.isEmpty(code)){
             //小程序唯一标识   (在微信小程序管理后台获取)
-            String appid = "wx2888c7754b338c28";
-            //String appid = "wx83117a1444f8213d";
+            String appid = "wx2888c7754b338c";
+            //String appid = "wx83117a1444f";
             //小程序的 app secret (在微信小程序管理后台获取)
-            String secret = "887085526457e287597d5a349a8943bc";
-            //String secret = "09bac854267dfbd1082d50169358a4a2";
+            String secret = "887085526457e287597d5a349";
+            //String secret = "09bac854267dfbd1082d50";
             //授权（必填）
             String grant_type = "authorization_code";
             // 1、向微信服务器 使用登录凭证 code 获取 session_key 和 openid
